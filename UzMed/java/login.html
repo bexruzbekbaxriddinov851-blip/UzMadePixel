@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UzMed Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100">
+    <section>
+      <div
+        class="bg-white mt-[100px] relative items-center w-[500px] px-5 py-12 mx-auto md:px-12 lg:px-20 max-w-7xl shadow-lg rounded-xl"
+      >
+        <div class="w-full max-w-md mx-auto">
+          <div class="flex flex-col mb-6">
+            <h2 class="text-4xl text-black font-bold text-center">MedUz</h2>
+          </div>
+          <form id="loginForm">
+            <div class="mt-4 space-y-6">
+              <div>
+                <label class="block mb-3 text-sm font-medium text-gray-600">
+                  Login
+                </label>
+                <input
+                  type="text"
+                  id="loginName"
+                  placeholder="Login"
+                  class="block w-full px-6 py-3 text-black bg-white border border-gray-300 rounded-full focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                />
+              </div>
+              <div>
+                <label class="block mb-3 text-sm font-medium text-gray-600">
+                  Parol
+                </label>
+                <input
+                  type="password"
+                  id="loginPass"
+                  placeholder="******"
+                  class="block w-full px-6 py-3 text-black bg-white border border-gray-300 rounded-full focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                />
+              </div>
+
+              <div>
+                <button
+                  type="submit"
+                  class="items-center justify-center w-full px-6 py-2.5 text-center text-white duration-200 bg-black border-2 border-black rounded-full hover:bg-transparent hover:border-black hover:text-black text-sm"
+                >
+                  Kirish
+                </button>
+                <p class="ml-5 mt-3 text-red-600 text-sm login-error-msg"></p>
+                <p class="ml-5 mt-3 text-sm">
+                  Accountingiz yo‘qmi?
+                  <a class="text-blue-600 underline" href="./account.html">
+                    Account yaratish
+                  </a>
+                </p>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+    <script src="./login.js"></script>
+  </body>
+</html>

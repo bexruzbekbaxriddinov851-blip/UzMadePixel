@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UzMed</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f5f6fa; color:#111; }
+    header { display:flex; justify-content:space-between; align-items:center; padding:15px; background:#fff; box-shadow:0 2px 5px rgba(0,0,0,0.1); position:sticky; top:0; z-index:100; }
+    .nom { font-size:18px; font-weight:bold; }
+    .notif { width:24px; cursor:pointer; }
+
+    .group { margin:15px; position:relative; }
+    .input { width:100%; padding:12px 40px; border-radius:25px; border:1px solid #ddd; outline:none; font-size:14px; box-shadow:0 2px 4px rgba(0,0,0,0.05); }
+    .search-icon { position:absolute; top:50%; left:15px; transform:translateY(-50%); width:18px; opacity:0.5; }
+
+    .banner { margin:15px; padding:20px; border-radius:15px; background:linear-gradient(135deg,#0b2447,#19376d); color:#fff; position:relative; overflow:hidden; }
+    .banner-text p { font-size:18px; font-weight:bold; margin:0; }
+    .banner button { margin-top:12px; padding:8px 16px; border:none; border-radius:20px; background:#fff; color:#0b2447; cursor:pointer; font-weight:bold; }
+    .banner img { position:absolute; right:10px; bottom:0; width:140px; opacity:0.3; }
+
+    .categories { display:grid; grid-template-columns:repeat(4,1fr); gap:15px; margin:15px; }
+    .cat { background:#fff; border-radius:12px; text-align:center; padding:12px; box-shadow:0 2px 6px rgba(0,0,0,0.1); transition:0.3s; cursor:pointer; }
+    .cat:hover { transform:translateY(-3px); box-shadow:0 4px 10px rgba(0,0,0,0.15); }
+    .cat .icon { font-size:28px; margin-bottom:8px; }
+
+    .doctors { padding:15px; margin-bottom: 50px; }
+    .section-head p { font-size:18px; font-weight:bold; margin-bottom:12px; }
+    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:15px; }
+    .card { background:#fff; border-radius:12px; padding:15px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.1); cursor:pointer; transition:0.3s; }
+    .card:hover { transform:translateY(-5px); box-shadow:0 4px 12px rgba(0,0,0,0.15); }
+    .card img { width:80px; height:80px; border-radius:50%; object-fit:cover; margin-bottom:10px; }
+    .card p { margin:5px 0; font-weight:bold; }
+    .card span { color:#666; font-size:14px; }
+
+    .navbar { position:fixed; bottom:0; left:0; width:100%; background:#fff; display:flex; justify-content:space-around; padding:8px 0; box-shadow:0 -2px 5px rgba(0,0,0,0.1); }
+    .navbar a { text-align:center; text-decoration:none; color:#111; font-size:12px; cursor:pointer; }
+    .navbar img { width:24px; height:24px; margin-bottom:4px; }
+
+    .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:200; }
+    .modal-content { background:#fff; padding:20px; border-radius:12px; max-width:400px; width:90%; text-align:center; position:relative; }
+    .modal-content img { width:100px; height:100px; border-radius:50%; margin-bottom:10px; }
+    .modal-content h3 { margin:10px 0; }
+    .modal-content span { color:#666; }
+    .modal-content input { margin-top:10px; padding:8px; width:100%; border:1px solid #ddd; border-radius:6px; }
+    .modal-content button { margin-top:15px; padding:10px 16px; border:none; border-radius:20px; background:#0b2447; color:#fff; cursor:pointer; }
+    .close { position:absolute; top:10px; right:20px; font-size:22px; cursor:pointer; color:#333; }
+
+    #queueSection { display:none; padding:20px; }
+    .item { padding:12px; margin-bottom:12px; border:1px solid #ddd; border-radius:8px; background:#fff; box-shadow:0 2px 5px rgba(0,0,0,0.05); position:relative; }
+    .date { color:#555; font-size:14px; }
+    .removeBtn { position:absolute; top:10px; right:10px; background:red; color:#fff; border:none; border-radius:5px; padding:4px 8px; cursor:pointer; font-size:12px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <p class="nom">Find your desire health solution</p>
+    <img src="Notification.png" class="notif" alt="notification">
+  </header>
+
+  <div class="group">
+    <img src="https://img.icons8.com/ios-filled/50/000000/search--v1.png" class="search-icon" alt="search">
+    <input placeholder="Search doctors..." type="search" class="input">
+  </div>
+
+  <!-- Banner -->
+  <div class="banner">
+    <div class="banner-text">
+      <p>Best healthcare service at your fingertips</p>
+      <button>Explore Now</button>
+    </div>
+  </div>
+
+  <!-- Categories -->
+  <div class="categories">
+    <div class="cat"><div class="icon">🏥</div><p>Hospital</p></div>
+    <div class="cat"><div class="icon">👨‍⚕️</div><p>Doctor</p></div>
+    <div class="cat"><div class="icon">💊</div><p>Pharmacy</p></div>
+    <div class="cat"><div class="icon">🚑</div><p>Ambulance</p></div>
+  </div>
+
+  <!-- HOME -->
+  <main id="homeSection">
+    <section class="doctors">
+      <div class="section-head"><p>Top Doctors</p></div>
+      <div class="cards">
+   <div class="cards">
+  <div class="card" data-name="Dr. Marcus Horiz" data-speciality="Cardiologist">
+    <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="">
+    <p>Dr. Marcus Horiz</p><span>Cardiologist</span>
+  </div>
+  <div class="card" data-name="Dr. Maria Elena" data-speciality="Psychologist">
+    <img src="https://randomuser.me/api/portraits/women/23.jpg" alt="">
+    <p>Dr. Maria Elena</p><span>Psychologist</span>
+  </div>
+  <div class="card" data-name="Dr. Stevi Jessi" data-speciality="Orthopedist">
+    <img src="https://randomuser.me/api/portraits/men/30.jpg" alt="">
+    <p>Dr. Stevi Jessi</p><span>Orthopedist</span>
+  </div>
+  <div class="card" data-name="Dr. John Smith" data-speciality="Dermatologist">
+    <img src="https://randomuser.me/api/portraits/men/12.jpg" alt="">
+    <p>Dr. John Smith</p><span>Dermatologist</span>
+  </div>
+  <div class="card" data-name="Dr. Emily Clark" data-speciality="Neurologist">
+    <img src="https://randomuser.me/api/portraits/women/34.jpg" alt="">
+    <p>Dr. Emily Clark</p><span>Neurologist</span>
+  </div>
+  <div class="card" data-name="Dr. Robert Wilson" data-speciality="Dentist">
+    <img src="https://randomuser.me/api/portraits/men/44.jpg" alt="">
+    <p>Dr. Robert Wilson</p><span>Dentist</span>
+  </div>
+  <div class="card" data-name="Dr. Sarah Johnson" data-speciality="Pediatrician">
+    <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="">
+    <p>Dr. Sarah Johnson</p><span>Pediatrician</span>
+  </div>
+  <div class="card" data-name="Dr. Michael Brown" data-speciality="Surgeon">
+    <img src="https://randomuser.me/api/portraits/men/55.jpg" alt="">
+    <p>Dr. Michael Brown</p><span>Surgeon</span>
+  </div>
+  <div class="card" data-name="Dr. Linda White" data-speciality="Gynecologist">
+    <img src="https://randomuser.me/api/portraits/women/56.jpg" alt="">
+    <p>Dr. Linda White</p><span>Gynecologist</span>
+  </div>
+  <div class="card" data-name="Dr. Kevin Adams" data-speciality="ENT Specialist">
+    <img src="https://randomuser.me/api/portraits/men/60.jpg" alt="">
+    <p>Dr. Kevin Adams</p><span>ENT Specialist</span>
+  </div>
+  <div class="card" data-name="Dr. Olivia Martinez" data-speciality="Ophthalmologist">
+    <img src="https://randomuser.me/api/portraits/women/70.jpg" alt="">
+    <p>Dr. Olivia Martinez</p><span>Ophthalmologist</span>
+  </div>
+  <div class="card" data-name="Dr. Daniel Lee" data-speciality="Radiologist">
+    <img src="https://randomuser.me/api/portraits/men/72.jpg" alt="">
+    <p>Dr. Daniel Lee</p><span>Radiologist</span>
+  </div>
+  <div class="card" data-name="Dr. Anna Petrova" data-speciality="Therapist">
+    <img src="https://randomuser.me/api/portraits/women/80.jpg" alt="">
+    <p>Dr. Anna Petrova</p><span>Therapist</span>
+  </div>
+  <div class="card" data-name="Dr. James Miller" data-speciality="Endocrinologist">
+    <img src="https://randomuser.me/api/portraits/men/81.jpg" alt="">
+    <p>Dr. James Miller</p><span>Endocrinologist</span>
+  </div>
+  <div class="card" data-name="Dr. Sophia Evans" data-speciality="Oncologist">
+    <img src="https://randomuser.me/api/portraits/women/82.jpg" alt="">
+    <p>Dr. Sophia Evans</p><span>Oncologist</span>
+  </div>
+  <div class="card" data-name="Dr. William Scott" data-speciality="Immunologist">
+    <img src="https://randomuser.me/api/portraits/men/83.jpg" alt="">
+    <p>Dr. William Scott</p><span>Immunologist</span>
+  </div>
+  <div class="card" data-name="Dr. Chloe Harris" data-speciality="Psychiatrist">
+    <img src="https://randomuser.me/api/portraits/women/84.jpg" alt="">
+    <p>Dr. Chloe Harris</p><span>Psychiatrist</span>
+  </div>
+  <div class="card" data-name="Dr. David Green" data-speciality="Nephrologist">
+    <img src="https://randomuser.me/api/portraits/men/85.jpg" alt="">
+    <p>Dr. David Green</p><span>Nephrologist</span>
+  </div>
+  <div class="card" data-name="Dr. Laura Brown" data-speciality="Rheumatologist">
+    <img src="https://randomuser.me/api/portraits/women/86.jpg" alt="">
+    <p>Dr. Laura Brown</p><span>Rheumatologist</span>
+  </div>
+  <div class="card" data-name="Dr. Richard Taylor" data-speciality="Gastroenterologist">
+    <img src="https://randomuser.me/api/portraits/men/87.jpg" alt="">
+    <p>Dr. Richard Taylor</p><span>Gastroenterologist</span>
+  </div>
+</div>
+      </div>
+
+      
+    </section>
+  </main>
+
+  <!-- NAVBATIM -->
+  <section id="queueSection">
+    <h2>Navbatimdagi buyurtmalar</h2>
+    <div id="queueList"></div>
+  </section>
+
+  <!-- NAVBAR -->
+  <div class="navbar">
+    <a id="homeTab"><img src="Home.png" alt=""><p>Home</p></a>
+    <a id="queueTab"><img src="Calendar.png" alt=""><p>Navbatim</p></a>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal" id="doctorModal">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+      <img id="modalImg" src="" alt="">
+      <h3 id="modalName"></h3>
+      <span id="modalSpec"></span>
+      <input type="date" id="appointmentDate">
+      <input type="time" id="appointmentTime">
+      <input type="tel" id="phoneNumber" placeholder="+998901234567">
+      <button id="bookBtn">Buyurtma berish</button>
+    </div>
+  </div>
+
+  <script>
+    const cards = document.querySelectorAll(".card");
+    const modal = document.getElementById("doctorModal");
+    const closeModal = document.getElementById("closeModal");
+    const modalImg = document.getElementById("modalImg");
+    const modalName = document.getElementById("modalName");
+    const modalSpec = document.getElementById("modalSpec");
+    const bookBtn = document.getElementById("bookBtn");
+
+    const homeSection = document.getElementById("homeSection");
+    const queueSection = document.getElementById("queueSection");
+    const queueList = document.getElementById("queueList");
+    const homeTab = document.getElementById("homeTab");
+    const queueTab = document.getElementById("queueTab");
+
+    // Telegram sozlamalari
+    const BOT_TOKEN = "8483594752:AAEhGlNAcPk3cxUW2BqHOiD7kuQJpib-PVI";
+    const CHAT_ID = "7065192955";
+
+    // Modal ochish
+    cards.forEach(card => {
+      card.addEventListener("click", () => {
+        modalImg.src = card.dataset.img;
+        modalName.textContent = card.dataset.name;
+        modalSpec.textContent = card.dataset.speciality;
+        modal.style.display = "flex";
+      });
+    });
+
+    closeModal.addEventListener("click", () => modal.style.display = "none");
+    window.addEventListener("click", (e) => { if(e.target === modal) modal.style.display = "none"; });
+
+    // Buyurtma
+    bookBtn.addEventListener("click", () => {
+      const date = document.getElementById("appointmentDate").value;
+      const time = document.getElementById("appointmentTime").value;
+      const phone = document.getElementById("phoneNumber").value;
+
+      if(date && time && phone){
+        let appointment = {
+          doctor: modalName.textContent,
+          speciality: modalSpec.textContent,
+          date: date,
+          time: time,
+          phone: phone
+        };
+
+        let queue = JSON.parse(localStorage.getItem("navbatim")) || [];
+        queue.push(appointment);
+        localStorage.setItem("navbatim", JSON.stringify(queue));
+
+
+
+        // ---------------------------------------- STOP STOP STOP STOP
+
+        let message = `🆕 Yangi buyurtma:\n👨‍⚕️ Shifokor: ${appointment.doctor}\n🔖 Mutaxassis: ${appointment.speciality}\n📅 Sana: ${appointment.date}\n⏰ Vaqt: ${appointment.time}\n📱 Tel: ${appointment.phone}`;
+        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ chat_id: CHAT_ID, text: message })
+        });
+
+        alert("Buyurtma qabul qilindi ✅");
+        modal.style.display = "none";
+      } else {
+        alert("Iltimos barcha maydonlarni to‘ldiring!");
+      }
+    });
+
+    function renderQueue(){
+      let queue = JSON.parse(localStorage.getItem("navbatim")) || [];
+      queueList.innerHTML = "";
+      if(queue.length === 0){
+        queueList.innerHTML = "<p>Hozircha buyurtma yo‘q.</p>";
+        return;
+      }
+      queue.forEach((q, i) => {
+        let div = document.createElement("div");
+        div.className = "item";
+        div.innerHTML = `
+          <b>${i+1}. ${q.doctor}</b> - ${q.speciality}<br>
+          <span class="date">📅 ${q.date} ⏰ ${q.time} 📱 ${q.phone}</span>
+          <button class="removeBtn" data-index="${i}">❌ O‘chirish</button>
+        `;
+        queueList.appendChild(div);
+      });
+      document.querySelectorAll(".removeBtn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          let index = btn.dataset.index;
+          let queue = JSON.parse(localStorage.getItem("navbatim")) || [];
+          queue.splice(index, 1);
+          localStorage.setItem("navbatim", JSON.stringify(queue));
+          renderQueue();
+        });
+      });
+    }
+
+    homeTab.addEventListener("click", () => {
+      homeSection.style.display = "block";
+      queueSection.style.display = "none";
+    });
+
+    queueTab.addEventListener("click", () => {
+      homeSection.style.display = "none";
+      queueSection.style.display = "block";
+      renderQueue();
+    });
+
+    const searchInput = document.querySelector(".input");
+    searchInput.addEventListener("input", () => {
+      let filter = searchInput.value.toLowerCase();
+      cards.forEach(card => {
+        let name = card.dataset.name.toLowerCase();
+        let spec = card.dataset.speciality.toLowerCase();
+        card.style.display = (name.includes(filter) || spec.includes(filter)) ? "block" : "none";
+      });
+    });
+
+    homeSection.style.display = "block";
+    queueSection.style.display = "none";
+  </script>
+</body>
+</html>
